@@ -1,7 +1,7 @@
 package StartUp;
 
 public abstract  class Produs {
-    private int id;
+    private int id,meniu_id;
     protected int price;
     private String name;
     Produs()
@@ -9,8 +9,18 @@ public abstract  class Produs {
         setPrice();
         name = getName();
     }
+
+    public int getMeniu_id() {
+        return meniu_id;
+    }
+
+    public void setMeniu_id(int meniu_id) {
+        this.meniu_id = meniu_id;
+    }
+
     abstract String getName();
     abstract void setPrice();
+
     int getId()
     {
         return id;
@@ -31,4 +41,5 @@ public abstract  class Produs {
     public void setName(String name) {
         this.name = name;
     }
+
 }

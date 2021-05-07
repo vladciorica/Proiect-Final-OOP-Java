@@ -85,4 +85,16 @@ public class Meniu implements Comparable<Meniu>{
             return m.getId() - id;
         return m.getProduse().size() - produse.size();
     }
+
+
+    public void parse_data(String line)
+    {
+        String aux[] = line.split(",");
+        String meniu_id,meniu_name;
+        meniu_id = aux[0];
+        meniu_name = aux[1];
+        System.out.println(meniu_id + " " + meniu_name);
+        this.id = Integer.parseInt(meniu_id);
+        this.restaurantName = meniu_name;
+    }
 }

@@ -7,6 +7,7 @@ public class Main {
         Scanner in = new Scanner(System.in);
         Service service = new Service();
         boolean exit_from_interface = false;
+        service.load_data();
         while(!exit_from_interface) {
             System.out.println("Introduceti comanda: ");
             String comanda = in.nextLine();
