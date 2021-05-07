@@ -21,10 +21,11 @@ public class Service {
     private final Set<Meniu> meniuri = new TreeSet<>(); // maintain them in sorted order
     private ArrayList<ArrayList<Integer>>comenzi = new ArrayList<ArrayList<Integer>>();
 
-    public void createNewMeniu() {
+    public void createNewMeniu() throws IOException {
         MeniuFactory MeniuFactory = new MeniuFactory();
         Meniu m = MeniuFactory.createMeniu();
         meniuri.add(m);
+        audit_log("createMeniu");
     }
 
     public void createProdusNouForMeniu(int MeniuId) throws Exception {
@@ -33,6 +34,7 @@ public class Service {
         Produs p = ProdusFactory.createProdus();
         p.setMeniu_id(MeniuId);
         m.addProdus(p);
+        audit_log("createProduct");
     }
 
     public int comandaRestaurant(int MeniuId, ArrayList<Integer> ProduseId) throws Exception {
@@ -43,19 +45,23 @@ public class Service {
             pret += m.searchProdusById(id).getPrice();
         }
         comenzi.add(ProduseId);
+        audit_log("Command");
         return pret;
     }
 
-    public void printMeniuriCost() {
+    public void printMeniuriCost() throws IOException {
         for(Meniu m: meniuri)
             System.out.println("Meniu id: " + m.getId() + ", Cost Meniu: " + m.get_total_price());
+        audit_log("MenusCost");
     }
 
     public Produs checkIfMeniuHasProdusById(int MeniuId, int ProdusId) throws Exception {
+        audit_log("MenuHasProductById");
         return searchMeniuWithId(MeniuId).searchProdusById(ProdusId);
     }
 
     public Produs checkIfMeniuHasProdusByName(int MeniuId, String ProdusName) throws Exception {
+        audit_log("MenuHasProductByName");
         return searchMeniuWithId(MeniuId).searchProdusByName(ProdusName);
     }
 
@@ -65,23 +71,27 @@ public class Service {
         for(Produs p : Produse)
             numeProduse.add(p.getName());
         System.out.println(numeProduse);
+        audit_log("PrintProducts");
     }
 
     public void sortareProduseByPrice(int MeniuId) throws Exception {
         searchMeniuWithId(MeniuId).sortareProduse();
+        audit_log("SortProducts");
     }
 
     public void clearMeniu(int MeniuId) throws Exception {
         searchMeniuWithId(MeniuId).clearMeniu();
+        audit_log("clearMenu");
     }
     private Meniu searchMeniuWithId(int MeniuId) throws Exception {
+        audit_log("SearchMeniuId");
         for (Meniu m : meniuri)
             if (m.getId() == MeniuId)
                 return m;
         throw new Exception("Nu exista niciun meniu cu id-ul: " + MeniuId);
     }
 
-    public String mostOrderedFood() {
+    public String mostOrderedFood() throws IOException {
         Map<String, Integer> ordered = new HashMap<>();
         Integer maxOrderedFood = 0;
         String celMaiComandatProdus = "Nu exista produs cu acest nume";
@@ -99,6 +109,7 @@ public class Service {
                 }
             }
         }
+        audit_log("MostOrderedFood");
         return celMaiComandatProdus;
     }
 
@@ -140,11 +151,12 @@ public class Service {
             Meniu m = searchMeniuWithId(p.getMeniu_id());
             m.addProdus(p);
         }
-        /*for(String line : content) {
-            String[] aux = line.split(",");
-            for(String cuv : aux)
-                System.out.println(cuv);
-        }
-         */
+
+    }
+
+    private void audit_log(String action) throws IOException {
+        Write write_file = Write.getInstance();
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        write_file.write(audit_filename, action + ", " + timestamp + ",\n");
     }
 }
