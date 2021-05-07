@@ -4,6 +4,7 @@ public class Garnitura extends Produs{
     private String tip;
     Garnitura()
     {
+        generalName = "Garnitura";
         tip = "cartofi prajiti";
     }
     @Override

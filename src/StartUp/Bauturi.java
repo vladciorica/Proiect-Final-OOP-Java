@@ -5,6 +5,7 @@ public class Bauturi extends Produs{
     private int cantitate,alcoolemie;
     Bauturi()
     {
+        generalName = "Bauturi";
         tip = "cola";
     }
     @Override

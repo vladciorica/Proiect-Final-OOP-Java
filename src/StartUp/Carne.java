@@ -2,7 +2,9 @@ package StartUp;
 
 public class Carne extends Produs{
     private String tip;
-    Carne(){tip = "pui";}
+    Carne(){
+        generalName = "Carne";
+        tip = "pui";}
     @Override
     public String getName()
     {

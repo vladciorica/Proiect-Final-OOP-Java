@@ -154,6 +154,27 @@ public class Service {
 
     }
 
+    public void save_changes() throws IOException
+    {
+        Write write_file = Write.getInstance();
+
+        write_file.clear(products_filename);
+        write_file.clear(menus_filename);
+        write_file.clear(product_factory_filename);
+        write_file.clear(menu_factory_filename);
+
+        menuFactory.save_changes(menu_factory_filename);
+        productFactory.save_changes(product_factory_filename);
+
+        for(Meniu m : meniuri)
+        {
+            m.save_changes(menus_filename);
+            for(Produs p : m.getProduse())
+            {
+                p.save_changes(products_filename);
+            }
+        }
+    }
     private void audit_log(String action) throws IOException {
         Write write_file = Write.getInstance();
         String timestamp = String.valueOf(System.currentTimeMillis());

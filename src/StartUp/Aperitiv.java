@@ -4,6 +4,7 @@ public class Aperitiv extends Produs{
     private String tip;
     Aperitiv()
     {
+        generalName = "Aperitiv";
         tip = "tartar de somon";
 
     }

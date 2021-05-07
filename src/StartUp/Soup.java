@@ -4,6 +4,7 @@ public class Soup extends Produs{
     private String tip;
     Soup()
     {
+        generalName = "Soup";
         tip = "de burta";
     }
     @Override

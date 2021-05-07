@@ -1,9 +1,12 @@
 package StartUp;
 
+import java.io.IOException;
+
 public abstract  class Produs {
     private int id,meniu_id;
     protected int price;
     private String name;
+    protected String generalName;
     Produs()
     {
         setPrice();
@@ -42,4 +45,16 @@ public abstract  class Produs {
         this.name = name;
     }
 
+    public void save_changes(String filename) throws IOException
+    {
+        Write write_file = Write.getInstance();
+        String headers = "id,meniuId,Name\n";
+        String body = id + "," + meniu_id  + "," + generalName +  "\n";
+        if (write_file.fileEmpty(filename)) {
+            write_file.write(filename, headers + body);
+        }
+        else {
+            write_file.write(filename, body);
+        }
+    }
 }

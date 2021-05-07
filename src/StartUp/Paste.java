@@ -5,6 +5,7 @@ public class Paste extends Produs{
     private String tip;
     Paste()
     {
+        generalName = "Paste";
         tip = "Carbonnara";
     }
     @Override

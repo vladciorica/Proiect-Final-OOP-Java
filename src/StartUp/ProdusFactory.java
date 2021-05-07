@@ -1,5 +1,6 @@
 package StartUp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -8,6 +9,14 @@ import java.util.function.Supplier;
 public class ProdusFactory {
     private static int ID = 0;
     private static int max_products;
+
+    public static int getID() {
+        return ID;
+    }
+
+    public static void setID(int ID) {
+        ProdusFactory.ID = ID;
+    }
 
     HashMap<String, Supplier<Produs>> types = new HashMap<>() {{
         put("Aperitiv", Aperitiv::new);
@@ -58,6 +67,7 @@ public class ProdusFactory {
             if(i > 0)
             {
                 setMax_products(Integer.parseInt(line));
+                setID(Integer.parseInt(line));
                 System.out.println(max_products);
             }
             i++;
@@ -86,5 +96,10 @@ public class ProdusFactory {
             i++;
         }
         return produse;
+    }
+
+    public void save_changes(String fileName) throws IOException {
+        Write write_file = Write.getInstance();
+        write_file.write(fileName, "MaxProducts\n" + getMax_products() + "\n");
     }
 }

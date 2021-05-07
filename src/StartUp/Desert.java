@@ -3,7 +3,9 @@ package StartUp;
 public class Desert extends  Produs{
     private String tip;
     Desert()
-    {tip = "lava cake";}
+    {
+        generalName = "Desert";
+        tip = "lava cake";}
     @Override
     public String getName()
     {

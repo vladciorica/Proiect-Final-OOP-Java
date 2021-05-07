@@ -5,6 +5,7 @@ public class Pizza extends Produs{
     private String tip;
     Pizza()
     {
+        generalName = "Pizza";
         tip = "Diavolo";
     }
     @Override

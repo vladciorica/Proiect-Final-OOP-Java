@@ -1,5 +1,6 @@
 package StartUp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -96,5 +97,18 @@ public class Meniu implements Comparable<Meniu>{
         System.out.println(meniu_id + " " + meniu_name);
         this.id = Integer.parseInt(meniu_id);
         this.restaurantName = meniu_name;
+    }
+
+    public void save_changes(String filename) throws IOException
+    {
+        Write write_file = Write.getInstance();
+        String headers = "id,restaurantName\n";
+        String body = id + "," + restaurantName  + "\n";
+        if (write_file.fileEmpty(filename)) {
+            write_file.write(filename, headers + body);
+        }
+        else {
+            write_file.write(filename, body);
+        }
     }
 }

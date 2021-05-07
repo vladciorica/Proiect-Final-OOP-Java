@@ -88,5 +88,7 @@ public class Main {
          
         }
 
+        service.save_changes();
+
     }
 }

@@ -1,11 +1,20 @@
 package StartUp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MeniuFactory {
     private static int ID = 0;
     private static int max_menus;
+
+    public static int getID() {
+        return ID;
+    }
+
+    public static void setID(int ID) {
+        MeniuFactory.ID = ID;
+    }
 
     public static int getMax_menus() {
         return max_menus;
@@ -36,9 +45,15 @@ public class MeniuFactory {
             if(i > 0)
             {
                 setMax_menus(Integer.parseInt(line));
+                setID(Integer.parseInt(line));
                 System.out.println(max_menus);
             }
             i++;
         }
+    }
+
+    public void save_changes(String fileName) throws IOException {
+        Write write_file = Write.getInstance();
+        write_file.write(fileName, "MaxNumberMenus\n" + getMax_menus() + "\n");
     }
 }
