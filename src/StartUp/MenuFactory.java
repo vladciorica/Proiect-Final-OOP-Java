@@ -1,10 +1,12 @@
 package StartUp;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MeniuFactory {
+public class MenuFactory {
     private static int ID = 0;
     private static int max_menus;
 
@@ -13,7 +15,7 @@ public class MeniuFactory {
     }
 
     public static void setID(int ID) {
-        MeniuFactory.ID = ID;
+        MenuFactory.ID = ID;
     }
 
     public static int getMax_menus() {
@@ -21,20 +23,20 @@ public class MeniuFactory {
     }
 
     public static void setMax_menus(int max_menus) {
-        MeniuFactory.max_menus = max_menus;
+        MenuFactory.max_menus = max_menus;
     }
 
-    public Meniu createMeniu() {
-        Meniu new_meniu = new Meniu();
+    public Menu createMenu() {
+        Menu new_Menu = new Menu();
         Scanner in = new Scanner(System.in);
 
         System.out.println("Numele restaurantului: ");
-        new_meniu.setRestaurantName(in.nextLine());
-        new_meniu.setId(ID++);
+        new_Menu.setRestaurantName(in.nextLine());
+        new_Menu.setId(ID++);
 
-        System.out.println("Meniu creat cu succes pentru restaurantul cu Id: " + new_meniu.getId());
+        System.out.println("Meniu creat cu succes pentru restaurantul cu Id: " + new_Menu.getId());
 
-        return new_meniu;
+        return new_Menu;
     }
 
     public void parse_data(ArrayList<String> content)
@@ -52,8 +54,25 @@ public class MeniuFactory {
         }
     }
 
+    public void load_data(String database_name) throws SQLException
+    {
+        Database db = Database.getInstance();
+        ResultSet content = db.query("SELECT maxNumberMenus FROM " + database_name);
+        content.next();
+        int value = content.getInt("maxNumberMenus");
+        System.out.println(value);
+        setMax_menus(value);
+        setID(value);
+    }
+
     public void save_changes(String fileName) throws IOException {
         Write write_file = Write.getInstance();
         write_file.write(fileName, "MaxNumberMenus\n" + getMax_menus() + "\n");
+    }
+
+    public void save_database_changes(String databaseName) throws IOException,SQLException
+    {
+        Database db = Database.getInstance();
+        db.update("INSERT INTO " + databaseName + "(maxNumberMenus) VALUES (" + getMax_menus() + ")");
     }
 }

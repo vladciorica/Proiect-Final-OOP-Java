@@ -1,6 +1,6 @@
 package StartUp;
 
-public class Desert extends  Produs{
+public class Desert extends  Product{
     private String tip;
     Desert()
     {

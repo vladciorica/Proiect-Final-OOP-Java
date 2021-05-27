@@ -1,6 +1,6 @@
 package StartUp;
 
-public class Bauturi extends Produs{
+public class Bauturi extends Product{
     private String tip;
     private int cantitate,alcoolemie;
     Bauturi()

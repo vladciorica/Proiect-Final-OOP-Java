@@ -1,6 +1,6 @@
 package StartUp;
 
-public class Paste extends Produs{
+public class Paste extends Product{
 
     private String tip;
     Paste()

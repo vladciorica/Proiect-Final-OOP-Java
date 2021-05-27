@@ -1,6 +1,6 @@
 package StartUp;
 
-public class Aperitiv extends Produs{
+public class Aperitiv extends Product{
     private String tip;
     Aperitiv()
     {

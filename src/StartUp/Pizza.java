@@ -1,6 +1,6 @@
 package StartUp;
 
-public class Pizza extends Produs{
+public class Pizza extends Product{
 
     private String tip;
     Pizza()

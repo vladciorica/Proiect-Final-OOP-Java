@@ -1,6 +1,6 @@
 package StartUp;
 
-public class Carne extends Produs{
+public class Carne extends Product{
     private String tip;
     Carne(){
         generalName = "Carne";

@@ -1,6 +1,6 @@
 package StartUp;
 
-public class Soup extends Produs{
+public class Soup extends Product{
     private String tip;
     Soup()
     {

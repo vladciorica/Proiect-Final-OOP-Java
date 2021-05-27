@@ -1,6 +1,6 @@
 package StartUp;
 
-public class Garnitura extends Produs{
+public class Garnitura extends Product{
     private String tip;
     Garnitura()
     {
