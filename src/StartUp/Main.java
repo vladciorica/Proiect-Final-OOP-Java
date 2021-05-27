@@ -21,7 +21,38 @@ public class Main {
                     int MenuId = in.nextInt();
                     in.nextLine();
                     service.createProductNouForMenu(MenuId);
-                } else if (comanda.equals("comandaProduse")) {
+                }
+                else if (comanda.equals("deleteMenu"))
+                    {
+                        System.out.println("Id-ul meniului pe care il stergem: ");
+                        int MenuId = in.nextInt();
+                        in.nextLine();
+                        service.deleteMenu(MenuId);
+                    }
+                else if (comanda.equals("updateMenu"))
+                {
+                    System.out.println("Id-ul meniului pe care il updatam: ");
+                    int MenuId = in.nextInt();
+                    in.nextLine();
+                    System.out.println("Numele restaurantului: ");
+                    String restaurantName = in.nextLine();
+                    service.updateMenu(MenuId,restaurantName);
+                }
+                else if (comanda.equals("updateMaxMenu"))
+                {
+                    System.out.println("Numarul maxim de meniuri: ");
+                    int maxMenu = in.nextInt();
+                    in.nextLine();
+                    service.updateMaxMenu(maxMenu);
+                }
+                else if (comanda.equals("updateMaxProducts"))
+                {
+                    System.out.println("Numarul maxim de produse dintr-un meniu: ");
+                    int maxProducts = in.nextInt();
+                    in.nextLine();
+                    service.updateMaxProducts(maxProducts);
+                }
+                else if (comanda.equals("comandaProduse")) {
                     System.out.println("Meniu Id din care cumparam: ");
                     int MenuId = in.nextInt();
                     in.nextLine();

@@ -63,6 +63,6 @@ public abstract  class Product {
     {
         Database db = Database.getInstance();
         db.update("INSERT INTO " + databaseName + "(idproducts, meniuId, productName) VALUES " +
-                "(" + id + ",'" + Menu_id + ",'" + generalName + ")");
+                "(" + id + "," + Menu_id + ",'" + generalName + "')");
     }
 }

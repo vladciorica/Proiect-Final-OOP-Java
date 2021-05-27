@@ -30,27 +30,68 @@ public class Service {
     private final Set<Menu> Menus = new TreeSet<>(); // maintain them in sorted order
     private ArrayList<ArrayList<Integer>>comenzi = new ArrayList<ArrayList<Integer>>();
 
-    public void createNewMenu() throws IOException {
+    public void createNewMenu() throws Exception {
         MenuFactory MenuFactory = new MenuFactory();
+        MenuFactory.setID(Menus.size());
         Menu m = MenuFactory.createMenu();
-        Menus.add(m);
-        audit_log("createMenu");
+        if(m != null) {
+            Menus.add(m);
+            audit_log("createMenu");
+        }
     }
 
     public void createProductNouForMenu(int MenuId) throws Exception {
         Menu m = searchMenuWithId(MenuId);
         ProductFactory ProductFactory = new ProductFactory();
+        ProductFactory.setID(m.getProducts().size());
         Product p = ProductFactory.createProduct();
-        p.setMenu_id(MenuId);
-        m.addProduct(p);
-        audit_log("createProduct");
+        if(p != null) {
+            p.setMenu_id(MenuId);
+            m.addProduct(p);
+            audit_log("createProduct");
+        }
+    }
+
+    public void deleteMenu(int MenuId) throws Exception{
+        Set<Menu> auxM = new TreeSet<>(); // maintain them in sorted order
+        for(Menu m : Menus)
+        {
+            if(m.getId() != MenuId)
+            {
+                auxM.add(m);
+            }
+        }
+
+        Menus.clear();
+        for(Menu m : auxM)
+            Menus.add(m);
+        int nr = 0;
+        for(Menu m : Menus)
+            m.setId(nr++);
+    }
+
+    public void updateMenu(int MenuId,String restaurantName) throws Exception{
+        for(Menu m : Menus)
+        {
+            if(m.getId() == MenuId)
+                m.setRestaurantName(restaurantName);
+        }
+    }
+
+    public void updateMaxMenu(int maxMenu)
+    {
+        MenuFactory.setMax_menus(maxMenu);
+    }
+
+    public void updateMaxProducts(int maxProducts)
+    {
+        ProductFactory.setMax_products(maxProducts);
     }
 
     public int comandaRestaurant(int MenuId, ArrayList<Integer> ProductsId) throws Exception {
         Menu m = searchMenuWithId(MenuId);
         int pret = 0;
-        for(int id : ProductsId)
-        {
+        for(int id : ProductsId) {
             pret += m.searchProductById(id).getPrice();
         }
         comenzi.add(ProductsId);
@@ -78,7 +119,7 @@ public class Service {
         ArrayList<Product> Products = searchMenuWithId(MenuId).getProducts();
         ArrayList<String> numeProducts = new ArrayList<String>();
         for(Product p : Products)
-            numeProducts.add(p.getName());
+            numeProducts.add(p.getName() + " " + p.getId());
         System.out.println(numeProducts);
         audit_log("PrintProducts");
     }
@@ -138,10 +179,12 @@ public class Service {
             Menus.add(m);
         }
 
+
         ArrayList<Product> Products = productFactory.load_products(products_database);
         for(Product p : Products)
         {
             Menu m = searchMenuWithId(p.getMenu_id());
+            p.setId(m.getProducts().size());
             m.addProduct(p);
         }
     }
@@ -195,15 +238,18 @@ public class Service {
         db.update("DELETE FROM " + menu_factory_database);
         db.update("DELETE FROM " + product_factory_database);
 
-        menuFactory.save_database_changes(menus_database);
-        productFactory.save_database_changes(products_database);
+        menuFactory.save_database_changes(menu_factory_database);
+        productFactory.save_database_changes(product_factory_database);
 
+        int nrProducts = 0;
         for(Menu m : Menus)
         {
-            m.save_database_changes(menus_filename);
+            m.save_database_changes(menus_database);
             for(Product p : m.getProducts())
             {
-                p.save_database_changes(products_filename);
+                p.setId(nrProducts);
+                nrProducts++;
+                p.save_database_changes(products_database);
             }
         }
     }

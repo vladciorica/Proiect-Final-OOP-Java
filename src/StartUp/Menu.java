@@ -52,6 +52,7 @@ public class Menu implements Comparable<Menu>{
 
     public int get_total_price()
     {
+        total_price = 0;
         for(Product p : products)
             total_price += p.getPrice();
         return total_price;
@@ -123,6 +124,6 @@ public class Menu implements Comparable<Menu>{
     {
         Database db = Database.getInstance();
         db.update("INSERT INTO " + databaseName + "(idMenus,restaurantName) VALUES " +
-                "(" + id + ",'" + restaurantName + ")");
+                "(" + id + ",'" + restaurantName + "')");
     }
 }

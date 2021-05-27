@@ -40,7 +40,13 @@ public class ProductFactory {
         ProductFactory.max_products = max_products;
     }
 
-    public Product createProduct() {
+    public Product createProduct() throws Exception{
+
+        if(ID >= max_products)
+        {
+            System.out.println("Nu se mai pot crea produse noi in acest meniu");
+            return null;
+        }
         Product new_product;
         Scanner in = new Scanner(System.in);
 
@@ -85,7 +91,6 @@ public class ProductFactory {
         int value = content.getInt("maxProducts");
         System.out.println(value);
         setMax_products(value);
-        setID(value);
     }
 
     public ArrayList<Product> parsare_Products(ArrayList<String> content)
@@ -123,7 +128,9 @@ public class ProductFactory {
             int menu_id = content.getInt("meniuId");
             String productName = content.getString("productName");
             Product p = types.get(productName).get();
-            p.setId(product_id);
+            System.out.println(ID);
+            p.setId(ID);
+            ID++;
             p.setMenu_id(menu_id);
             Products.add(p);
         }

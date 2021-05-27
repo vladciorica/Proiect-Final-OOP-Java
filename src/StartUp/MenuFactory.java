@@ -26,7 +26,12 @@ public class MenuFactory {
         MenuFactory.max_menus = max_menus;
     }
 
-    public Menu createMenu() {
+    public Menu createMenu() throws Exception{
+        if(ID >= max_menus)
+        {
+            System.out.println("Nu se mai pot crea meniuri noi");
+            return null;
+        }
         Menu new_Menu = new Menu();
         Scanner in = new Scanner(System.in);
 
